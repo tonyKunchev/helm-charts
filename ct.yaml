@@ -1,5 +1,5 @@
 # See https://github.com/helm/chart-testing#configuration
 remote: origin
 chart-dirs:
-  - ./
-
+  # root directory, presumably for all charts
+  - .
