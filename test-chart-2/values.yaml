@@ -19,7 +19,7 @@ global:
 ###########################
 
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "death"
 namespaceOverride: ""
 labels: {}
 annotations: {}
