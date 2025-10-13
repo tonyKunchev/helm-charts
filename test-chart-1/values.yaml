@@ -20,7 +20,7 @@ global:
 # Metadata Configurations #
 ###########################
 
-nameOverride: ""
+nameOverride: "wrath"
 fullnameOverride: ""
 namespaceOverride: ""
 labels: {}

@@ -2,7 +2,7 @@ apiVersion: v2
 name: test-chart-2
 description: A Test Helm chart
 type: application
-version: 1.0.0
+version: 1.1.0
 appVersion: "v1.0.7"
 home: https://github.com/tonyKunchev/helm-charts
 sources:
