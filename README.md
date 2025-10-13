@@ -1,2 +1,3 @@
-# helm-charts
-Helm Charts actions testing
+# Helm Charts
+
+Helm Charts - actions testing.

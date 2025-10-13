@@ -1,0 +1,177 @@
+###############################################################################
+# Main configuration file.                                                    #
+# To override single property use --set                                       #
+# To override multiple, provide another values-override.yaml with the -f flag #
+# See https://helm.sh/docs/chart_template_guide/values_files/                 #
+###############################################################################
+
+#########################
+# Global Configurations #
+#########################
+
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  clusterDomain: cluster.local
+
+###########################
+# Metadata Configurations #
+###########################
+
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+labels: {}
+annotations: {}
+
+########################
+# Image Configurations #
+########################
+
+image:
+  registry: ghcr.io
+  repository: tonykunchev/test-docker-actions
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+##########################
+# Scaling Configurations #
+##########################
+
+replicas: 1
+
+##############################
+# Application Configurations #
+##############################
+
+
+configuration:
+  properties: {}
+  extraProperties:
+    existingConfigmap: ""
+    existingSecret: ""
+
+##########################
+# Ingress Configurations #
+##########################
+
+ingress:
+  enabled: false
+  className: ""
+  labels: {}
+  annotations: {}
+  hosts: []
+  tls: []
+
+##########################
+# Service Configurations #
+##########################
+
+service:
+  enabled: true
+  labels: {}
+  annotations: {}
+  type: ClusterIP
+  ports:
+    http: 8000
+  nodePort: ""
+  externalTrafficPolicy: ""
+  healthCheckNodePort: ""
+  loadBalancerClass: ""
+  loadBalancerSourceRanges: []
+  externalIPs: []
+  extraPorts: []
+
+###################################
+# Security Context Configurations #
+###################################
+
+podSecurityContext: {}
+securityContext: {}
+
+########################################
+# Pod Disruption Budget Configurations #
+########################################
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: ""
+  maxUnavailable: 1
+
+##################################
+# Service Account Configurations #
+##################################
+
+serviceAccount:
+  create: false
+  name: ""
+  annotations: {}
+
+##########################
+# Resource Configuration #
+##########################
+
+resources:
+  requests:
+    memory: 64Mi
+  limits:
+    memory: 128Mi
+
+#########################
+# Probes Configurations #
+#########################
+
+startupProbe:
+  httpGet:
+    path: /
+    port: http
+  failureThreshold: 30
+  timeoutSeconds: 5
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+  periodSeconds: 10
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 60
+  timeoutSeconds: 5
+  periodSeconds: 10
+
+#############################
+# Deployment Configurations #
+#############################
+
+strategy:
+  type: RollingUpdate
+revisionHistoryLimit: 10
+progressDeadlineSeconds: 600
+terminationGracePeriodSeconds: 120
+automountServiceAccountToken: false
+schedulerName: ""
+dnsConfig: {}
+dnsPolicy: ""
+priorityClassName: ""
+podLabels: {}
+podAnnotations: {}
+extraVolumes: []
+extraVolumeMounts: []
+extraEnvFrom: []
+extraEnv: []
+extraInitContainers: []
+extraContainerPorts: {}
+
+#############################
+# Scheduling Configurations #
+#############################
+
+nodeSelector: {}
+affinity: {}
+tolerations: []

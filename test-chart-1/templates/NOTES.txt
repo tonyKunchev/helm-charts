@@ -1,0 +1,11 @@
+Chart version: {{ .Chart.Version }}
+Application version: {{ coalesce .Values.image.tag .Chart.AppVersion }}
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }} --namespace {{ include "test-chart-1.namespace" . }}
+  $ helm get all {{ .Release.Name }} --namespace {{ include "test-chart-1.namespace" . }}
+
+To clean Up:
+
+  $ helm uninstall {{ .Release.Name }} --namespace {{ include "test-chart-1.namespace" . }}
