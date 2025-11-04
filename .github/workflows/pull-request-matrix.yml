@@ -39,13 +39,13 @@ jobs:
         run: |
           echo $CHANGED_FILES
         env:
-          CHANGED_FILES: ${{ needs.prepare.output.changed_files }}
+          CHANGED_FILES: ${{ needs.prepare.outputs.changed_files }}
 
       - name: ${{ matrix.chart }} - Helm lint & render check
         if: contains($CHANGED_FILES, '${{ matrix.chart }}')
-        working-directory: ${{ matrix.chart }}
+        working-directory: ../${{ matrix.chart }}
         env:
-          CHANGED_FILES: ${{ needs.prepare.output.changed_files }}
+          CHANGED_FILES: ${{ needs.prepare.outputs.changed_files }}
         run: |
           helm lint --strict .
           helm template . > output.yaml --debug
