@@ -9,7 +9,7 @@ on:
       - '**.md'
 
 jobs:
-  lint-test:
+  prepare:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,12 +26,25 @@ jobs:
         id: verify-changed-files
         uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20.0.4
 
+      - name: Export variables
+        run: echo "CHANGED_FILES=${{ steps.verify-changed-files.outputs.changed_files }}" >> $GITHUB_ENV
+
       - name: Set up Helm
         uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4.3.1
 
+  lint-test:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chart:
+          - test-chart-1
+          - test-chart-2
+    steps:
       - name: ${{ matrix.chart }} - Helm lint & render check
-        if: contains(steps.verify-changed-files.outputs.changed_files, ${{ matrix.chart }})
+        if: contains(${{ env.CHANGED_FILES }}, '${{ matrix.chart }}')
         working-directory: ./${{ matrix.chart }}
         run: |
+          echo "${{ env.CHANGED_FILES }}"
           helm lint --strict .
           helm template . > output.yaml --debug
