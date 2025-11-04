@@ -40,7 +40,8 @@ jobs:
       - name: Test
         run: |
           echo "$CHANGED_FILES"
-          printf $CHANGED_FILES
+          printf "%s" $CHANGED_FILES
+          printf "%s" ${{ needs.prepare.outputs.changed_files }}
 
       - name: ${{ matrix.chart }} - Helm lint & render check
         if: contains($CHANGED_FILES, '${{ matrix.chart }}')
