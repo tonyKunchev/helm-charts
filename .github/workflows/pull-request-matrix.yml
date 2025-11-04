@@ -39,7 +39,6 @@ jobs:
       - name: Test
         run: |
           echo ${{ env.CHANGED_FILES }}
-          echo ${{ prepare.verify-changed-files.outputs.changed_files }}
 
       - name: ${{ matrix.chart }} - Helm lint & render check
         if: contains(${{ env.CHANGED_FILES }}, '${{ matrix.chart }}')
