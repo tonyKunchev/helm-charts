@@ -40,5 +40,5 @@ jobs:
       - name: ${{ matrix.chart }} - Helm lint & render check
         if: contains($CHANGED_FILES, '${{ matrix.chart }}')
         run: |
-          cd ../${{ matrix.chart }}
+          echo $PWD
           ls
