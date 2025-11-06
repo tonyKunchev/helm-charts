@@ -30,7 +30,7 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-latest
     env:
-      CHANGED_FILES: ${{ needs.prepare.outputs.changed_files }}
+      CHANGED_FILES: (${{ needs.prepare.outputs.changed_files }})
     strategy:
       matrix:
         chart:
