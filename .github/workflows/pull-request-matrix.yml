@@ -23,14 +23,6 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47
 
-      - name: List all changed files
-        env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-        run: |
-          for file in ${ALL_CHANGED_FILES}; do
-            echo "$file was changed"
-          done
-
       - name: Set up Helm
         uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4.3.1
 
@@ -45,15 +37,8 @@ jobs:
           - test-chart-1
           - test-chart-2
     steps:
-      - name: Test
+      - name: ${{ matrix.chart }} - Helm lint & render check
+        if: contains($CHANGED_FILES, '${{ matrix.chart }}')
+        working-directory: ${{ matrix.chart }}
         run: |
-          echo "$CHANGED_FILES"
-          printf "%s" $CHANGED_FILES
-          printf "%s" ${{ needs.prepare.outputs.changed_files }}
-
-      # - name: ${{ matrix.chart }} - Helm lint & render check
-      #   if: contains($CHANGED_FILES, '${{ matrix.chart }}')
-      #   working-directory: ${{ matrix.chart }}
-      #   run: |
-      #     helm lint --strict .
-      #     helm template . > output.yaml --debug
+          echo $PWD
