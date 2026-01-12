@@ -29,7 +29,7 @@ jobs:
       needs: [prepare]
       runs-on: ubuntu-latest
       env:
-        CHANGED_FILES: (${{ needs.prepare.outputs.changed_files }})
+        CHANGED_FILES: (${{ needs.verify-changed-files.outputs.changed_files }})
       strategy:
         matrix:
           chart:
@@ -39,6 +39,5 @@ jobs:
         - name: ${{ matrix.chart }} - Helm lint & render check
           if: contains(needs.verify-changed-files.outputs.changed_files, '${{ matrix.chart }}')
           run: |
-            cd ../${{ matrix.chart }}
             helm lint --strict .
             helm template . > output.yaml --debug
