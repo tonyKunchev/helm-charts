@@ -38,7 +38,7 @@ jobs:
       steps:
         - name: ${{ matrix.chart }} - Helm lint & render check
           if: contains(needs.verify-changed-files.outputs.changed_files, '${{ matrix.chart }}')
-          working-directory: ./${{ matrix.chart }}
           run: |
+            cd ../${{ matrix.chart }}
             helm lint --strict .
             helm template . > output.yaml --debug
