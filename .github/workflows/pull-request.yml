@@ -43,25 +43,3 @@ jobs:
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: ct install --config ct.yaml
-
-      - name: Send custom event details to a Slack workflow
-        uses: slackapi/slack-github-action@v4.0.0
-        if: success() || failure()
-        with:
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: webhook-trigger
-          payload: |
-            status: "${{ job.status }}"
-            option: "false"
-
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        if: success() || failure()
-        env:
-          SLACK_CHANNEL: general
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'B.I.G :pishki:'
-          SLACK_TITLE: Post Title
-          SLACK_USERNAME: rtCamp
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}

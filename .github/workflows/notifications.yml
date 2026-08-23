@@ -1,0 +1,53 @@
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - main
+      - releases/**
+
+jobs:
+  release:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f # v1.7.0
+        id: chart_releaser
+        with:
+          charts_dir: "."
+          skip_existing: true
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      # - name: Load YAML configuration
+      #   id: read
+      #   uses: step-security/action-read-yaml@705ee0c6475c5a26a356e79ee380eb3527b3772d
+      #   with:
+      #     config: ${{ github.workspace }}/examples/basic.yaml
+
+      - name: Send custom event details to a Slack workflow
+        uses: slackapi/slack-github-action@v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            status: "${{ job.status }}"
+            name: ""
+            release: "${{ steps.chart_releaser.outputs.chart_version }}" 
+            user: "${{ github.actor }}"
+            repository: "${{ github.repository }}"
+            tag_link: ""
