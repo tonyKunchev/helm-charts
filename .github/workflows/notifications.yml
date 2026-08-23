@@ -2,8 +2,10 @@ name: Notifications
 
 on:
   release:
-    types: 
+    types:
       - published
+      - created
+      - released
 
 jobs:
   notify:
