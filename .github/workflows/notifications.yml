@@ -11,11 +11,13 @@ jobs:
 
     steps:
 
-      # - name: Load YAML configuration
-      #   id: read
-      #   uses: step-security/action-read-yaml@705ee0c6475c5a26a356e79ee380eb3527b3772d
-      #   with:
-      #     config: ${{ github.workspace }}/examples/basic.yaml
+      - name: Parse the release name
+        id: tag_parser
+        env:
+          RELEASE_TAG: "${{ github.event.release.name }}"
+        run: |
+          echo "name=${RELEASE_TAG%-*}" >> $GITHUB_OUTPUT
+          echo "version=${RELEASE_TAG##*-}" >> $GITHUB_OUTPUT
 
       - name: Send custom event details to a Slack workflow
         uses: slackapi/slack-github-action@v4.0.0
@@ -23,10 +25,10 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: webhook-trigger
           payload: |
+            name: "${{ steps.tag_parser.outputs.name }}"
+            release: "${{ steps.tag_parser.outputs.version }}"
             status: "${{ job.status }}"
-            name: ""
-            release: "${{ github.event.release.tag_name }}" 
-            user: "${{ github.actor }}"
+            user: "${{ github.event.release.author.html_url }}"
             repository: "https://github.com/${{ github.repository }}"
-            tag_link: ""
-            created_at: "${{ github.event.release.created_at }}"
+            tag_link: "${{ github.event.release.html_url }}"
+            published_at: "${{ github.event.release.published_at }}"
