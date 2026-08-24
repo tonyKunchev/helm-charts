@@ -24,9 +24,10 @@ jobs:
           webhook-type: webhook-trigger
           payload: |
             status: "${{ job.status }}"
-            name: ""
-            release: "${{ github.event.release.tag_name }}" 
+            name: "${{ github.event.release.name }}"
+            release: "${{ github.event.release.tag_name }}"
             user: "${{ github.actor }}"
+            user_url: "${{ github.event.release.author.html_url }}"
             repository: "https://github.com/${{ github.repository }}"
-            tag_link: ""
-            created_at: "${{ github.event.release.created_at }}"
+            tag_link: "${{ github.event.release.html_url }}"
+            published_at: "${{ github.event.release.published_at }}"
