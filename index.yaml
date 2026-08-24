@@ -3,6 +3,19 @@ entries:
   test-chart-1:
   - apiVersion: v2
     appVersion: v1.0.7
+    created: "2026-08-24T08:42:18.394169169Z"
+    description: A Test Helm chart
+    digest: eaf479b7c636ee2710372143136240f8fc97a328c60d462fbb93c9273c3234a7
+    home: https://github.com/tonyKunchev/helm-charts
+    name: test-chart-1
+    sources:
+    - https://github.com/tonyKunchev/helm-charts
+    type: application
+    urls:
+    - https://github.com/tonyKunchev/helm-charts/releases/download/test-chart-1-1.4.1/test-chart-1-1.4.1.tgz
+    version: 1.4.1
+  - apiVersion: v2
+    appVersion: v1.0.7
     created: "2026-08-24T08:38:22.620837598Z"
     description: A Test Helm chart
     digest: 476ae74759e3e7cb12ea6cfb11f102c12039f844214ea299805875b461e91296
@@ -210,4 +223,4 @@ entries:
     urls:
     - https://github.com/tonyKunchev/helm-charts/releases/download/test-chart-2-1.1.0/test-chart-2-1.1.0.tgz
     version: 1.1.0
-generated: "2026-08-24T08:38:22.72232708Z"
+generated: "2026-08-24T08:42:18.54148108Z"
